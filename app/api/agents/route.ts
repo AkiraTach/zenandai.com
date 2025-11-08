@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const agents = agentService.getAllAgents();
     return NextResponse.json({ agents });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch agents' },
       { status: 500 }
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const agent = agentService.createAgent(body);
     return NextResponse.json({ agent }, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to create agent' },
       { status: 500 }

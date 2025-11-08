@@ -14,7 +14,7 @@ export async function POST(
       );
     }
     return NextResponse.json({ success: true, message: 'Agent stopped' });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to stop agent' },
       { status: 500 }

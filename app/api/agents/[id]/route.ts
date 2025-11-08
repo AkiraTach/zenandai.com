@@ -14,7 +14,7 @@ export async function GET(
       );
     }
     return NextResponse.json({ agent });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to fetch agent' },
       { status: 500 }
@@ -36,7 +36,7 @@ export async function PATCH(
       );
     }
     return NextResponse.json({ agent });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to update agent' },
       { status: 500 }
@@ -57,7 +57,7 @@ export async function DELETE(
       );
     }
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to delete agent' },
       { status: 500 }

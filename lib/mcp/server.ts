@@ -79,7 +79,7 @@ export class MCPServer {
     return Array.from(this.tools.values());
   }
 
-  async executeTool(name: string, parameters: Record<string, any>): Promise<any> {
+  async executeTool(name: string, parameters: Record<string, unknown>): Promise<unknown> {
     const tool = this.getTool(name);
     if (!tool) {
       throw new Error(`Tool ${name} not found`);
@@ -105,7 +105,7 @@ export class MCPServer {
     }
   }
 
-  private validateParameters(tool: MCPTool, parameters: Record<string, any>) {
+  private validateParameters(tool: MCPTool, parameters: Record<string, unknown>) {
     for (const [key, schema] of Object.entries(tool.parameters)) {
       if (schema.required && !(key in parameters)) {
         throw new Error(`Missing required parameter: ${key}`);
@@ -113,7 +113,7 @@ export class MCPServer {
     }
   }
 
-  private async getMarketData(params: any) {
+  private async getMarketData(params: Record<string, unknown>) {
     // Implementation would connect to real market data API
     return {
       symbol: params.symbol,
@@ -122,7 +122,7 @@ export class MCPServer {
     };
   }
 
-  private async placeOrder(params: any) {
+  private async placeOrder(params: Record<string, unknown>) {
     // Implementation would connect to trading execution system
     return {
       orderId: `order_${Date.now()}`,
@@ -131,7 +131,7 @@ export class MCPServer {
     };
   }
 
-  private async getPortfolio(params: any) {
+  private async getPortfolio(params: Record<string, unknown>) {
     // Implementation would fetch from database
     return {
       agentId: params.agentId,
@@ -141,9 +141,9 @@ export class MCPServer {
     };
   }
 
-  private async getHistoricalData(params: any) {
+  private async getHistoricalData(params: Record<string, unknown>) {
     // Implementation would fetch historical data and mask future data
-    const currentTime = new Date(params.currentTime);
+    const currentTime = new Date(params.currentTime as string);
     return {
       symbol: params.symbol,
       data: [],
@@ -151,7 +151,7 @@ export class MCPServer {
     };
   }
 
-  private async evaluateStrategy(params: any) {
+  private async evaluateStrategy(params: Record<string, unknown>) {
     // Implementation would run backtest
     return {
       agentId: params.agentId,

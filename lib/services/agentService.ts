@@ -102,19 +102,19 @@ export class AgentService {
 
     try {
       // Get current portfolio
-      const portfolio = await mcpServer.executeTool('get_portfolio', { agentId });
+      const portfolio = await mcpServer.executeTool('get_portfolio', { agentId }) as Record<string, unknown>;
 
       // Get market data for decision making
       const marketData = await mcpServer.executeTool('get_market_data', {
         symbol: 'AAPL',
         timeframe: '1h'
-      });
+      }) as { price: number };
 
       // Execute AI model decision (simplified - would call actual AI API)
-      const decision = await this.makeDecision(agent, portfolio, marketData);
+      const decision = await this.makeDecision(agent, portfolio);
 
       if (decision && decision.action !== 'hold') {
-        const orderResult = await mcpServer.executeTool('place_order', {
+        await mcpServer.executeTool('place_order', {
           symbol: decision.symbol,
           action: decision.action,
           quantity: decision.quantity
@@ -140,13 +140,15 @@ export class AgentService {
     }
   }
 
-  private async makeDecision(agent: Agent, portfolio: any, marketData: any) {
+  private async makeDecision(agent: Agent, portfolio: Record<string, unknown>) {
     // This is a simplified decision engine
     // In production, this would call the actual AI model (GPT, Claude, Qwen)
     // using the agent's prompt and strategy
 
     // Placeholder logic
     const random = Math.random();
+    const positions = (portfolio.positions as unknown[]) || [];
+    
     if (random > 0.7) {
       return {
         symbol: 'AAPL',
@@ -154,7 +156,7 @@ export class AgentService {
         quantity: 10,
         reasoning: 'Market conditions favorable for purchase'
       };
-    } else if (random < 0.3 && portfolio.positions.length > 0) {
+    } else if (random < 0.3 && positions.length > 0) {
       return {
         symbol: 'AAPL',
         action: 'sell' as const,
@@ -166,7 +168,7 @@ export class AgentService {
     return { action: 'hold' as const };
   }
 
-  async backtest(agentId: string, startDate: Date, endDate: Date): Promise<any> {
+  async backtest(agentId: string, startDate: Date, endDate: Date): Promise<unknown> {
     const agent = this.agents.get(agentId);
     if (!agent) throw new Error('Agent not found');
 

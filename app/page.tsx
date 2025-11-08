@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { TrendingUp, Bot, Zap, Shield, BarChart3, Code } from 'lucide-react';
 
 export default function Home() {

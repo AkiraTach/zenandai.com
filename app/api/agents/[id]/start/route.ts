@@ -14,7 +14,7 @@ export async function POST(
       );
     }
     return NextResponse.json({ success: true, message: 'Agent started' });
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { error: 'Failed to start agent' },
       { status: 500 }
